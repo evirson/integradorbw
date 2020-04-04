@@ -1,32 +1,28 @@
-package br.com.vetorsistemas.integradorbw.cores;
+package br.com.vetorsistemas.integradorbw.marcas;
 
 import java.io.Serializable;
-import java.sql.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
-import javax.persistence.Table;
+
+
 
 @Entity
-@Table(name = "SP_CORESBW")
-@NamedStoredProcedureQueries({ @NamedStoredProcedureQuery(name = "SPCores", procedureName = "SP_CORESBW") })
-public class Cor implements Serializable{
+public class Marca implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
-	@Id
-	private String descricao;
-	private Date dataSinc;
 
-	public Cor() {
+	@Id
+	@Column(name = "marpro")
+	private String descricao;
+
+	public Marca() {
 
 	}
 
-	public Cor(String descricao, Date dataSinc) {
+	public Marca(String descricao) {
 		super();
 		this.descricao = descricao;
-		this.dataSinc = dataSinc;
 	}
 
 	public String getDescricao() {
@@ -35,14 +31,6 @@ public class Cor implements Serializable{
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
-	}
-
-	public Date getDataSinc() {
-		return dataSinc;
-	}
-
-	public void setDataSinc(Date dataSinc) {
-		this.dataSinc = dataSinc;
 	}
 
 	@Override
@@ -61,7 +49,7 @@ public class Cor implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Cor other = (Cor) obj;
+		Marca other = (Marca) obj;
 		if (descricao == null) {
 			if (other.descricao != null)
 				return false;
@@ -69,8 +57,6 @@ public class Cor implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
-	
+
 
 }

@@ -1,4 +1,4 @@
-package br.com.vetorsistemas.integradorbw.cores;
+package br.com.vetorsistemas.integradorbw.variacao;
 
 import java.util.List;
 
@@ -9,17 +9,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/cores")
-public class CorResource {
+@RequestMapping(value="/variacao")
+public class VariacaoResource {
 	
 	@Autowired
-	private CorService service;
+	private VariacaoService service;
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
 		
 		
-		List<Cor>  cobj = service.buscarTodos();
+		List<Variacao>  cobj = service.buscarTodos();
 		
 		return ResponseEntity.ok().body(cobj);
 			

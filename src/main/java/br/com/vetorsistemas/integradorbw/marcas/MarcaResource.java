@@ -1,4 +1,4 @@
-package br.com.vetorsistemas.integradorbw.cores;
+package br.com.vetorsistemas.integradorbw.marcas;
 
 import java.util.List;
 
@@ -9,21 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/cores")
-public class CorResource {
-	
+@RequestMapping(value = "/marcas")
+public class MarcaResource {
+
 	@Autowired
-	private CorService service;
-	
+	private MarcaService service;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
-		
-		
-		List<Cor>  cobj = service.buscarTodos();
-		
-		return ResponseEntity.ok().body(cobj);
-			
-	}
 
+		List<Marca> cobj = service.buscarTodos();
+
+		return ResponseEntity.ok().body(cobj);
+
+	}
 
 }

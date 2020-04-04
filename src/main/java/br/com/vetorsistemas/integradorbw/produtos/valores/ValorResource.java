@@ -1,4 +1,4 @@
-package br.com.vetorsistemas.integradorbw.cores;
+package br.com.vetorsistemas.integradorbw.produtos.valores;
 
 import java.util.List;
 
@@ -9,21 +9,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(value="/cores")
-public class CorResource {
-	
+@RequestMapping(value = "/valores")
+public class ValorResource {
+
 	@Autowired
-	private CorService service;
-	
+	private ValorService service;
+
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll() {
-		
-		
-		List<Cor>  cobj = service.buscarTodos();
-		
-		return ResponseEntity.ok().body(cobj);
-			
-	}
 
+		List<Valor> obj = service.buscarTodos();
+
+		return ResponseEntity.ok().body(obj);
+
+	}
 
 }
