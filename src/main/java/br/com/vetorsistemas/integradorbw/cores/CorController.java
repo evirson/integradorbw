@@ -28,22 +28,21 @@ public class CorController {
 		List<Cor> paginado = new ArrayList<>();
 
 		int c = cores.size();
-		int i = 0;
-		int p = 0;
+		int i = 1;
+		int p = 1;
 
 		while (i < c) {
 			paginado.add(cores.get(i));
+
+			if ((p == 100) || (p == (c))) {
+				Servicebw.enviaDados(paginado, "cores");
+
+				p = 0;
+
+				paginado.clear();
+			}
 			i++;
 			p++;
-			
-		
-			if ((p == 100) || (p == (c-1))) {
-				Servicebw.enviaDados(paginado, "cores");
-				
-				p = 0;
-			    
-			    paginado.clear();
-			}
 		}
 
 		return ResponseEntity.ok().body(paginado);

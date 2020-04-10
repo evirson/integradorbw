@@ -10,7 +10,9 @@ import org.springframework.stereotype.Repository;
 public interface ListaRepository extends JpaRepository<Lista, Integer> {
 
 	default List<Lista> findAll() {
+		
 		List<Lista> lista = new ArrayList<>();
+		
 		for (int i = 1; i <= 3; i++) {
 			Lista x = new Lista();
 

@@ -5,9 +5,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ValorRepository extends JpaRepository<Valor, Integer> {
-	
 
 
-	
-	
 }

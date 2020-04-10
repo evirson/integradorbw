@@ -28,22 +28,22 @@ public class MarcaController {
 		List<Marca> paginado = new ArrayList<>();
 
 		int c = marcas.size();
-		int i = 0;
-		int p = 0;
+		int i = 1;
+		int p = 1;
 
 		while (i < c) {
 			paginado.add(marcas.get(i));
-			i++;
-			p++;
-			
 		
-			if ((p == 100) || (p == (c-1))) {
+			if ((p == 100) || (p == (c))) {
 				Servicebw.enviaDados(paginado, "marcas");
 				
 				p = 0;
 			    
 			    paginado.clear();
 			}
+			
+			i++;
+			p++;
 		}
 
 		return ResponseEntity.ok().body(paginado);

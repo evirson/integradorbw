@@ -103,13 +103,15 @@ returns (
     TIPO_CADASTRO integer,
     DATASINC timestamp,
     SIGLA_UNIDADE_MEDIDA char(6),
-    FATORMULTIPLICACAO integer)
+    FATORMULTIPLICACAO integer,
+    CODSINC Varchar(10),
+    ID_MARCA_CODSINC varchar(25))
 as
 declare variable ISELECT varchar(30000);
 declare variable DATACB timestamp;
 declare variable DATACE timestamp;
 begin
-    iSelect = ' Select cp.codpro, cp.refpro, cp.nompro, case when inativ = ''N'' then true else false end '||
+    iSelect = ' Select cp.codpro, cp.codpro, cp.nompro, case when inativ = ''N'' then true else false end '||
               ' ,cp.coddep||''.''||cp.codgru||''.''||cp.codsub||''.''||cp.codsec||''.''||cp.codstc||''.''||cp.codest '||
               ' , coalesce(ec.pesliq,0), coalesce(ec.altura,0), coalesce(ec.largur,0), coalesce(ec.compri,0) '||
               ' , (select coalesce(sum(ce.qtdest),0) from cadest ce join cadbar cb on cb.codbar = ce.codbar and cb.codpro = cp.codpro) '||
@@ -118,14 +120,17 @@ begin
               ' , (select max(cb.datexp) from cadbar cb where cb.codpro = cp.codpro) '||
               ' , cp.datexp '||
               ' , case when cp.unicom = null then ''UN'' else cp.unicom end '||
+              ' , cp.codpro codsinc '||
+              ' , cp.marpro '||
               ' from cadpro cp '||
-              ' left join ecomer_comp_prod ec on ec.codpro = cp.codpro ';
+              ' left join ecomer_comp_prod ec on ec.codpro = cp.codpro '||
+              ' order by cp.codpro ';
 
 
     for execute statement iSelect
         into :id, :referencia, :descricao, :ativo, :id_hierarquia,
              :peso, :altura, :largura, :comprimento, :qtd_Estoque, :tipo_cadastro,
-             :dataCE, :dataCB, :dataSinc, :sigla_unidade_medida
+             :dataCE, :dataCB, :dataSinc, :sigla_unidade_medida, :codsinc, id_marca_codsinc
     do
     begin
 
@@ -138,6 +143,7 @@ begin
 
     end
  end;
+
 
  
  create or alter procedure SP_VARIACAOBW

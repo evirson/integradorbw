@@ -17,7 +17,7 @@ public class Marca implements Serializable {
 	@Id
 	@Column(name="codsinc")
 	@JsonProperty("CodSinc")
-	private Integer codsinc;
+	private String codsinc;
 	
 	@Column(name="marpro")
 	@JsonProperty("Descricao")
@@ -27,17 +27,17 @@ public class Marca implements Serializable {
 
 	}
 
-	public Marca(Integer codsinc, String descricao) {
+	public Marca(String codsinc, String descricao) {
 		super();
 		this.codsinc = codsinc;
 		this.descricao = descricao;
 	}
 
-	public Integer getCodsinc() {
+	public String getCodsinc() {
 		return codsinc;
 	}
 
-	public void setCodsinc(Integer codsinc) {
+	public void setCodsinc(String codsinc) {
 		this.codsinc = codsinc;
 	}
 

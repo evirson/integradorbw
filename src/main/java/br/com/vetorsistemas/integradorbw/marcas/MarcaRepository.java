@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface MarcaRepository extends JpaRepository<Marca, String> {
 
-	@Query(value = "select min(codpro) as codsinc, marpro  from cadpro where marpro is not null group by marpro", nativeQuery = true)
+	@Query(value = "select marpro codsinc, marpro  from cadpro group by marpro", nativeQuery = true)
 	
 	List<Marca> findAll();
 	

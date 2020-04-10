@@ -55,6 +55,12 @@ public class Produto implements Serializable {
 	@Column(name="datasinc")
 	@JsonProperty("DataSinc")
 	private Date dataSinc;
+	@Column(name="codsinc")
+	@JsonProperty("CodSinc")
+	private String codSinc;
+	@Column(name="id_marca_codsinc")
+	@JsonProperty("Id_Marca_CodSinc")
+	private String id_Marca_CodSinc;
 
 	public Produto() {
 
@@ -201,6 +207,24 @@ public class Produto implements Serializable {
 
 	public void setDataSinc(Date dataSinc) {
 		this.dataSinc = dataSinc;
+	}
+	
+	public String getCodSinc() {
+		return codSinc;
+	}
+
+	public void setCodSinc(String codSinc) {
+		this.codSinc = codSinc;
+	}
+	
+	
+
+	public String getId_Marca_CodSinc() {
+		return id_Marca_CodSinc;
+	}
+
+	public void setId_Marca_CodSinc(String id_Marca_CodSinc) {
+		this.id_Marca_CodSinc = id_Marca_CodSinc;
 	}
 
 	@Override
