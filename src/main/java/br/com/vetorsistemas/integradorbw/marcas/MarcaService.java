@@ -13,7 +13,7 @@ public class MarcaService {
 
 	public List<Marca> buscarTodos() {
 
-		List<Marca> marcas  = repo.findAllMarcas();
+		List<Marca> marcas  = repo.findAll();
 		
 		return marcas;
 

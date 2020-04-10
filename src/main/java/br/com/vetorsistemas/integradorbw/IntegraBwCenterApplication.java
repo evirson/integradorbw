@@ -10,9 +10,11 @@ public class IntegraBwCenterApplication {
 
 	public static void main(String[] args) throws JAXBException {
 		SpringApplication.run(IntegraBwCenterApplication.class, args);
-		
-		
-	//	Cliente.buscaDados();
+
 	}
+	
+	
+	
+
 
 }

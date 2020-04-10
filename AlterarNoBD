@@ -1,6 +1,193 @@
-estrutura esta no banco 5709
 
 SP_CoresBW
 SP_HierarquiasBW
 SP_ProdutosBW
 SP_VariacaoBW
+
+create or alter procedure SP_CORESBW
+returns (
+    ID integer,
+    DESCRICAO varchar(47),
+    DATASINC timestamp)
+as
+begin
+   for select min(cb.codpro), udf_cores(c1.nomcor, c2.nomcor, c3.nomcor), max(cb.datexp)
+       from cadbar cb
+       join cadcor c1 on c1.codcor = cb.codcr1
+       join cadcor c2 on c2.codcor = cb.codcr2
+       join cadcor c3 on c3.codcor = cb.codcr3
+       group by c1.nomcor, c2.nomcor, c3.nomcor
+   into :id, :descricao, :dataSinc
+   do
+   begin
+      suspend;
+   end
+
+
+end;
+
+
+create or alter procedure SP_HIERARQUIASBW
+returns (
+    CODIGO varchar(64),
+    DESCRICAO varchar(40),
+    NIVEL integer,
+    ATIVO boolean,
+    DATEXP timestamp)
+as
+declare variable I integer;
+declare variable IDEPTO varchar(300);
+declare variable IGRUPO varchar(300);
+declare variable ISUBGP varchar(300);
+declare variable ISECAO varchar(300);
+declare variable IESTAC varchar(300);
+declare variable IESTIL varchar(300);
+declare variable "ISQL" varchar(3000);
+declare variable IFILTRO varchar(300);
+begin
+   /* passar filtro como parametro */
+   iFiltro = ' where cp.datexp <= current_date  ';
+
+   iDepto = ' select distinct cp.coddep, cc.nomdep, max(cp.datexp) from cadpro cp '||
+            ' join caddep cc on cp.coddep = cc.coddep '||:iFiltro||' group by 1, 2';
+   iGrupo = ' select distinct cp.coddep||''.''||cp.codgru, cc.nomgru, max(cp.datexp) '||
+            ' from cadpro cp  join cadgru cc on cp.codgru = cc.codgru '||:iFiltro||' group by 1, 2';
+   iSubGp = ' select distinct cp.coddep||''.''||cp.codgru||''.''||cp.codsub, cc.nomsub, max(cp.datexp) '||
+            ' from cadpro cp  join cadsub cc on cp.codsub = cc.codsub '||:iFiltro||' group by 1, 2';
+   iSecao = ' select distinct cp.coddep||''.''||cp.codgru||''.''||cp.codsub||''.''||cp.codsec, '||
+            ' cc.nomsec, max(cp.datexp) '||
+            ' from cadpro cp join cadsec cc on cp.codsec = cc.codsec '||:iFiltro||' group by 1, 2';
+   iEstac = ' select distinct cp.coddep||''.''||cp.codgru||''.''||cp.codsub||''.''||cp.codsec||''.''||cp.codstc , '||
+            ' cc.nomstc, max(cp.datexp) '||
+            ' from cadpro cp join cadstc cc on cp.codstc = cc.codstc '||:iFiltro||' group by 1, 2';
+   iEstil = ' select distinct cp.coddep||''.''||cp.codgru||''.''||cp.codsub||''.''||cp.codsec||''.''||cp.codstc||''.''||cp.codest , '||
+            ' cc.nomest, max(cp.datexp) '||
+            ' from cadpro cp join estilo cc on cp.codest = cc.codest '||:iFiltro||' group by 1, 2';
+
+
+   i = 1;
+   while (i <= 6) do
+   begin
+      if (i = 1) then isql = iDepto;
+      if (i = 2) then isql = iGrupo;
+      if (i = 3) then isql = iSubGp;
+      if (i = 4) then isql = iSecao;
+      if (i = 5) then isql = iEstac;
+      if (i = 6) then isql = iEstil;
+
+      for execute statement isql into :codigo, :descricao, :datexp 
+      do
+      begin
+         nivel = i;
+         ativo = true;
+         suspend;
+      end
+      i = i + 1;
+   end
+end;
+
+
+create or alter procedure SP_PRODUTOSBW
+returns (
+    ID integer,
+    REFERENCIA varchar(25),
+    DESCRICAO varchar(100),
+    ATIVO boolean,
+    ID_HIERARQUIA varchar(64),
+    DESCRICAO_COMPLETA varchar(300),
+    PESO float,
+    ALTURA float,
+    LARGURA float,
+    COMPRIMENTO float,
+    QTD_ESTOQUE float,
+    TIPO_CADASTRO integer,
+    DATASINC timestamp,
+    SIGLA_UNIDADE_MEDIDA char(6),
+    FATORMULTIPLICACAO integer)
+as
+declare variable ISELECT varchar(30000);
+declare variable DATACB timestamp;
+declare variable DATACE timestamp;
+begin
+    iSelect = ' Select cp.codpro, cp.refpro, cp.nompro, case when inativ = ''N'' then true else false end '||
+              ' ,cp.coddep||''.''||cp.codgru||''.''||cp.codsub||''.''||cp.codsec||''.''||cp.codstc||''.''||cp.codest '||
+              ' , coalesce(ec.pesliq,0), coalesce(ec.altura,0), coalesce(ec.largur,0), coalesce(ec.compri,0) '||
+              ' , (select coalesce(sum(ce.qtdest),0) from cadest ce join cadbar cb on cb.codbar = ce.codbar and cb.codpro = cp.codpro) '||
+              ' , case when (select count(*) from cadbar cb where cb.codpro = cp.codpro) = 1 then 1 else 2 end '||
+              ' , (select max(ce.datexp) from cadest ce join cadbar cb on cb.codbar = ce.codbar and cb.codpro = cp.codpro) '||
+              ' , (select max(cb.datexp) from cadbar cb where cb.codpro = cp.codpro) '||
+              ' , cp.datexp '||
+              ' , case when cp.unicom = null then ''UN'' else cp.unicom end '||
+              ' from cadpro cp '||
+              ' left join ecomer_comp_prod ec on ec.codpro = cp.codpro ';
+
+
+    for execute statement iSelect
+        into :id, :referencia, :descricao, :ativo, :id_hierarquia,
+             :peso, :altura, :largura, :comprimento, :qtd_Estoque, :tipo_cadastro,
+             :dataCE, :dataCB, :dataSinc, :sigla_unidade_medida
+    do
+    begin
+
+       if (dataSinc < dataCE) then dataSinc = dataCe;
+       if (dataSinc < dataCB) then dataSinc = dataCB;
+
+       fatormultiplicacao = 1;
+
+       suspend;
+
+    end
+ end;
+
+ 
+ create or alter procedure SP_VARIACAOBW
+returns (
+    ID integer,
+    REFERENCIA varchar(15),
+    ESTOQUE float,
+    PESO float,
+    ATIVO boolean,
+    ID_PRODUTO integer,
+    ID_COR_CODSINC varchar(47),
+    ID_TAMANHO_CODSINC varchar(4),
+    DATASINC timestamp)
+as
+declare variable ISELECT varchar(3000);
+declare variable DATACE timestamp;
+declare variable DATACB timestamp;
+declare variable CONTADOR integer;
+begin
+   contador = 1;
+   iSelect = ' Select cp.refpro, sum(ce.qtdest), 0  '||
+             ' , case when cp.inativ = ''N'' then true else false end '||
+             ' , cp.codpro, udf_cores(c1.nomcor, c2.nomcor, c3.nomcor) '||
+             ' , tm.nomtam, cp.datexp '||
+             ' , max(ce.datexp) '||
+             ' , max(cb.datexp) '||
+             ' from cadest ce '||
+             ' join cadbar cb on cb.codbar = ce.codbar '||
+             ' join cadpro cp on cp.codpro = cb.codpro '||
+             ' join cadcor c1 on c1.codcor = cb.codcr1 '||
+             ' join cadcor c2 on c2.codcor = cb.codcr2 '||
+             ' join cadcor c3 on c3.codcor = cb.codcr3 '||
+             ' join cadtam tm on tm.codtam = cb.codtam '||
+             ' group by 1,3,4,5,6,7,8 ';
+
+
+
+   for execute statement iSelect
+       into :referencia, :estoque, :peso, :ativo, :id_produto, :id_cor_codsinc, :id_tamanho_codsinc, :dataSinc, :dataCE, :dataCB
+   do
+   begin
+      id = contador;
+      contador = contador + 1;
+
+      if (dataSinc < dataCB) then dataSinc = dataCB;
+      if (dataSinc < dataCE) then dataSinc = dataCE;
+
+      suspend;
+   end
+
+
+end;
+ 

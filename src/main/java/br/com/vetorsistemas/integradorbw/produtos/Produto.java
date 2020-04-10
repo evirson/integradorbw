@@ -12,7 +12,7 @@ import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "SP_PRODUTOSBW")
@@ -22,23 +22,38 @@ public class Produto implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@JsonProperty("Id")
 	private Integer id;
+	@JsonProperty("Referencia")
 	private String referencia;
+	@JsonProperty("Descricao")
 	private String descricao;
+	@JsonProperty("Descricao_Completa")
 	private String descricao_Completa;
+	@JsonProperty("Largua")
 	private double largura;
+	@JsonProperty("Altura")
 	private double altura;
+	@JsonProperty("Comprimento")
 	private double comprimento;
+	@JsonProperty("Peso")
 	private double peso;
+	@JsonProperty("Ativo")
 	private boolean ativo;
+	@JsonProperty("Qtd_Estoque")
 	private double qtd_Estoque;
+	@JsonProperty("Tipo_Cadastro")
 	private Integer tipo_Cadastro;
+	@JsonProperty("Id_Hierarquia")
 	private String id_Hierarquia;
+	@JsonProperty("Sigla_Unidade_Medida")
 	@Column(name="sigla_unidade_medida")
 	private String sigla_Unidade_Medida;
+	@JsonProperty("FatorMultiplicacao")
 	@Column(name="fatormultiplicacao")
 	private double fatorMultiplicacao;
 	@Column(name="datasinc")
+	@JsonProperty("DataSinc")
 	private Date dataSinc;
 
 	public Produto() {

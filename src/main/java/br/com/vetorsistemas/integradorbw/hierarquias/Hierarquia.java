@@ -11,6 +11,8 @@ import javax.persistence.NamedStoredProcedureQueries;
 import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 @Entity
 @Table(name = "SP_HIERARQUIASBW")
 @NamedStoredProcedureQueries({ @NamedStoredProcedureQuery(name = "SPHierarquias", procedureName = "SP_HIERARQUIASBW") })
@@ -20,12 +22,16 @@ public class Hierarquia implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "codigo")
+	@JsonProperty("Id")
 	private String id;
 	@Column(name = "descricao")
+	@JsonProperty("Nome")
 	private String nome;
 	@Column(name = "ativo")
+	@JsonProperty("Ativo")
 	private boolean ativo;
 	@Column(name = "nivel")
+	@JsonProperty("Nivel")
 	private Integer nivel;
 
 	public Hierarquia() {

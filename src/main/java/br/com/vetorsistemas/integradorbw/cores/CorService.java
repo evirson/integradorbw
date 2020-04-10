@@ -21,7 +21,7 @@ public class CorService {
 	
 	public List<Cor> buscarTodos(){
 		
-		List<Cor> cores  = repo.findAll();
+		List<Cor> cores  =  repo.findAll();
 		
 		return cores;
 	}
