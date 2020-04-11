@@ -1,4 +1,4 @@
-package br.com.vetorsistemas.integradorbw.produtos.valores;
+package br.com.vetorsistemas.integradorbw.tamanhos;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,43 +14,37 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import br.com.vetorsistemas.integradorbw.Servicebw;
 
 @RestController
-@RequestMapping(value = "/valores")
-public class ValorResource {
+@RequestMapping(value = "/tamanhos")
+public class TamanhoController {
 
 	@Autowired
-	private ValorService service;
+	private TamanhoService service;
 
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll() throws JsonProcessingException {
+		List<Tamanho> tamanhos = service.buscarTodos();
 
-		List<Valor> valores = service.buscarTodos();
-		List<Valor> paginado = new ArrayList<>();
+		List<Tamanho> paginado = new ArrayList<>();
 
-		int c = valores.size();
-		int i = 1;
+		int c = tamanhos.size();
+		int i = 0;
 		int p = 1;
-		
+
 		while (i < c) {
-			
-			Valor v = valores.get(i);
-			v.setCodSinc(v.getId());
-			valores.set(i, v);
-			
-			paginado.add(valores.get(i));
+			paginado.add(tamanhos.get(i));
 
 			if ((p == 100) || (p == (c))) {
-				Servicebw.enviaDados(paginado, "produtos/valores");
-				
-				p = 0;
-			    
-			    paginado.clear();
+				Servicebw.enviaDados(paginado, "tamanhos");
+
+				p = 1;
+
+				paginado.clear();
 			}
 			i++;
 			p++;
 		}
 
 		return ResponseEntity.ok().body(paginado);
-
 
 	}
 

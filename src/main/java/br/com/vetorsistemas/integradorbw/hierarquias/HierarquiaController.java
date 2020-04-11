@@ -29,7 +29,7 @@ public class HierarquiaController {
 		List<Hierarquia> paginado = new ArrayList<>();
 
 		int c = hierarquias.size();
-		int i = 1;
+		int i = 0;
 		int p = 1;
 
 		while (i < c) {
@@ -38,7 +38,7 @@ public class HierarquiaController {
 			if ((p == 100) || (p == (c))) {
 				Servicebw.enviaDados(paginado, "hierarquias");
 				
-				p = 0;
+				p = 1;
 			    
 			    paginado.clear();
 			}

@@ -21,9 +21,9 @@ public class TamanhoService {
 	
 	public List<Tamanho> buscarTodos(){
 		
-		List<Tamanho> cores  = repo.findAll();
+		List<Tamanho> tamanhos  = repo.findAll();
 		
-		return cores;
+		return tamanhos;
 	}
 
 }

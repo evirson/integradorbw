@@ -28,7 +28,7 @@ public class CorController {
 		List<Cor> paginado = new ArrayList<>();
 
 		int c = cores.size();
-		int i = 1;
+		int i = 0;
 		int p = 1;
 
 		while (i < c) {
@@ -37,7 +37,7 @@ public class CorController {
 			if ((p == 100) || (p == (c))) {
 				Servicebw.enviaDados(paginado, "cores");
 
-				p = 0;
+				p = 1;
 
 				paginado.clear();
 			}

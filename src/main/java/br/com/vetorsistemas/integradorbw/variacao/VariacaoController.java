@@ -1,4 +1,4 @@
-package br.com.vetorsistemas.integradorbw.marcas;
+package br.com.vetorsistemas.integradorbw.variacao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,34 +14,33 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import br.com.vetorsistemas.integradorbw.Servicebw;
 
 @RestController
-@RequestMapping(value = "/marcas")
-public class MarcaController {
-
+@RequestMapping(value="/variacao")
+public class VariacaoController {
+	
 	@Autowired
-	private MarcaService service;
-
+	private VariacaoService service;
+	
 	@RequestMapping(method = RequestMethod.GET)
 	public ResponseEntity<?> findAll() throws JsonProcessingException {
+	
+		List<Variacao>  variacoes = service.buscarTodos();
 
-		List<Marca> marcas = service.buscarTodos();
+		List<Variacao> paginado = new ArrayList<>();
 
-		List<Marca> paginado = new ArrayList<>();
-
-		int c = marcas.size();
+		int c = variacoes.size();
 		int i = 0;
 		int p = 1;
 
 		while (i < c) {
-			paginado.add(marcas.get(i));
-		
+			paginado.add(variacoes.get(i));
+
 			if ((p == 100) || (p == (c))) {
-				Servicebw.enviaDados(paginado, "marcas");
-				
+				Servicebw.enviaDados(paginado, "produtos/variacao");
+
 				p = 1;
-			    
-			    paginado.clear();
+
+				paginado.clear();
 			}
-			
 			i++;
 			p++;
 		}
@@ -49,5 +48,6 @@ public class MarcaController {
 		return ResponseEntity.ok().body(paginado);
 
 	}
+
 
 }

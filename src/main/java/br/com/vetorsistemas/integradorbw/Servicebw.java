@@ -16,8 +16,8 @@ public class Servicebw {
 
 	
 	public static void enviaDados(List<?> dados, String caminho) throws JsonProcessingException {
-        
-		String url = "https://integracao.bwcenter.shop/vetorsistemas/" + caminho + "/salvarImportacao";
+        String url = "https://integracao.bwcenter.shop/vetorsistemas/" + caminho + "/salvarImportacao";
+ 
 		String name = "integracao";
 		String password = "uFaO5luw";
 		String authString = name + ":" + password;
@@ -35,6 +35,6 @@ public class Servicebw {
 
 		System.out.println(answer);
 		System.out.println(entity);
-
+	    
 	}
 }

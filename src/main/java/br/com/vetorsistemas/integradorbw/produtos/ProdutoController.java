@@ -27,7 +27,7 @@ public class ProdutoController {
 		List<Produto> paginado = new ArrayList<>();
 
 		int c = produtos.size();
-		int i = 1;
+		int i = 0;
 		int p = 1;
 		
 		while (i < c) {
@@ -36,7 +36,7 @@ public class ProdutoController {
 			if ((p == 100) || (p == (c))) {
 				Servicebw.enviaDados(paginado, "produtos");
 				
-				p = 0;
+				p = 1;
 			    
 			    paginado.clear();
 			}

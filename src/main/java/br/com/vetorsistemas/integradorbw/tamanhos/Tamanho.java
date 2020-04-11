@@ -9,7 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "cadtam")
@@ -18,27 +18,28 @@ public class Tamanho implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="codtam")
-	@JsonIgnore
-	private Integer id;
+	@Column(name="codsinc")
+	@JsonProperty("CodSinc")
+	private String id;
 	@Column(name="nomtam")
+	@JsonProperty("Descricao")
 	private String descricao;
 
 	public Tamanho() {
 
 	}
 
-	public Tamanho(Integer id, String descricao) {
+	public Tamanho(String id, String descricao) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 	}
 
-	public Integer getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 

@@ -5,26 +5,25 @@ import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "SP_CORESBW")
-@NamedStoredProcedureQueries({ @NamedStoredProcedureQuery(name = "SPCores", procedureName = "SP_CORESBW") })
+@Table(name = "cadbar")
 public class Cor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
-	@Column(name="id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@JsonProperty("CodSinc")
-	private Integer id; 
+	private String id;
 	@JsonProperty("Descricao")
 	private String descricao;
-	@Column(name = "datasinc")
+	@Column(name="datasinc")
 	@JsonProperty("DataSinc")
 	private Date dataSinc;
 
@@ -32,18 +31,18 @@ public class Cor implements Serializable {
 
 	}
 
-	public Cor(Integer id, String descricao, Date dataSinc) {
+	public Cor(String id, String descricao, Date dataSinc) {
 		super();
 		this.id = id;
 		this.descricao = descricao;
 		this.dataSinc = dataSinc;
 	}
-	
-	public Integer getId() {
+
+	public String getId() {
 		return id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -61,10 +60,6 @@ public class Cor implements Serializable {
 
 	public void setDataSinc(Date dataSinc) {
 		this.dataSinc = dataSinc;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
 	}
 
 	@Override
@@ -93,4 +88,5 @@ public class Cor implements Serializable {
 	}
 	
 	
+
 }

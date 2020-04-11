@@ -1,62 +1,65 @@
 package br.com.vetorsistemas.integradorbw.variacao;
 
 import java.io.Serializable;
-import java.sql.Date;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedStoredProcedureQueries;
-import javax.persistence.NamedStoredProcedureQuery;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
-@Table(name = "SP_VARIACAOBW")
-@NamedStoredProcedureQueries({ @NamedStoredProcedureQuery(name = "SPVariacao", procedureName = "SP_VARIACAOBW") })
+@Table(name = "cadbar")
 public class Variacao implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@JsonIgnore
-	private Integer id;
+	@JsonProperty("CodSinc")
+	private String codsinc;
+	@JsonProperty("Referencia")
 	private String referencia;
+	@JsonProperty("Estoque")
 	private Integer estoque;
+	@JsonProperty("Peso")
 	private double peso;
+	@JsonProperty("Ativo")
 	private boolean ativo;
+	@JsonProperty("Id_Produto")
 	private Integer id_produto;
+	@JsonProperty("Id_Produto_CodSinc")
+	private String id_produto_codsinc;
+	@JsonProperty("Id_Cor_CodSinc")
 	private String id_cor_codsinc;
+	@JsonProperty("Id_Tamanho_CodSinc")
 	private String id_tamanho_codsinc;
-	private Date datasinc;
 
 	public Variacao() {
 
 	}
 
-	public Variacao(Integer id, String referencia, Integer estoque, double peso, boolean ativo, Integer id_produto,
-			String id_cor_codsinc, String id_tamanho_codsinc, Date datasinc) {
+	public Variacao(String codsinc, String referencia, Integer estoque, double peso, boolean ativo, Integer id_produto,
+			String id_produto_codsinc, String id_cor_codsinc, String id_tamanho_codsinc) {
 		super();
-		this.id = id;
+		this.codsinc = codsinc;
 		this.referencia = referencia;
 		this.estoque = estoque;
 		this.peso = peso;
 		this.ativo = ativo;
 		this.id_produto = id_produto;
+		this.id_produto_codsinc = id_produto_codsinc;
 		this.id_cor_codsinc = id_cor_codsinc;
 		this.id_tamanho_codsinc = id_tamanho_codsinc;
-		this.datasinc = datasinc;
 	}
 
-	public Integer getId() {
-		return id;
+	public String getCodsinc() {
+		return codsinc;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setCodsinc(String codsinc) {
+		this.codsinc = codsinc;
 	}
 
 	public String getReferencia() {
@@ -99,6 +102,14 @@ public class Variacao implements Serializable {
 		this.id_produto = id_produto;
 	}
 
+	public String getId_produto_codsinc() {
+		return id_produto_codsinc;
+	}
+
+	public void setId_produto_codsinc(String id_produto_codsinc) {
+		this.id_produto_codsinc = id_produto_codsinc;
+	}
+
 	public String getId_cor_codsinc() {
 		return id_cor_codsinc;
 	}
@@ -115,19 +126,11 @@ public class Variacao implements Serializable {
 		this.id_tamanho_codsinc = id_tamanho_codsinc;
 	}
 
-	public Date getDatasinc() {
-		return datasinc;
-	}
-
-	public void setDatasinc(Date datasinc) {
-		this.datasinc = datasinc;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((codsinc == null) ? 0 : codsinc.hashCode());
 		return result;
 	}
 
@@ -140,13 +143,14 @@ public class Variacao implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Variacao other = (Variacao) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codsinc == null) {
+			if (other.codsinc != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codsinc.equals(other.codsinc))
 			return false;
 		return true;
 	}
+	
 	
 	
 }

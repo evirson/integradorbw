@@ -1,31 +1,6 @@
 
-SP_CoresBW
 SP_HierarquiasBW
 SP_ProdutosBW
-SP_VariacaoBW
-
-create or alter procedure SP_CORESBW
-returns (
-    ID integer,
-    DESCRICAO varchar(47),
-    DATASINC timestamp)
-as
-begin
-   for select min(cb.codpro), udf_cores(c1.nomcor, c2.nomcor, c3.nomcor), max(cb.datexp)
-       from cadbar cb
-       join cadcor c1 on c1.codcor = cb.codcr1
-       join cadcor c2 on c2.codcor = cb.codcr2
-       join cadcor c3 on c3.codcor = cb.codcr3
-       group by c1.nomcor, c2.nomcor, c3.nomcor
-   into :id, :descricao, :dataSinc
-   do
-   begin
-      suspend;
-   end
-
-
-end;
-
 
 create or alter procedure SP_HIERARQUIASBW
 returns (

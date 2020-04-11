@@ -8,47 +8,60 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Entity
 @Table(name = "CADPRO")
-public class Valor  implements Serializable {
+public class Valor implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codpro")
+	@Column(name = "id_produto")
 	@JsonProperty("Id_Produto")
-	private Integer id;
-	@Column(name = "venpra")
+	private Integer id_Produto;
+	@Column(name = "id_produto_codsinc")
+	@JsonProperty("Id_Produto_CodSinc")
+	private String id_Produto_CodSInc;
+	@Column(name = "preco")
 	@JsonProperty("Preco")
 	private double preco;
-	@Transient
+	@Column(name = "id_lista_codsinc")
 	@JsonProperty("Id_Lista_CodSinc")
-	private Integer id_Lista; 
-    @Transient
+	private Integer id_Lista_CodSinc;
+	@Column(name = "codsinc")
 	@JsonProperty("CodSinc")
-	private Integer codSinc; 
+	private Integer codSinc;
 
 	public Valor() {
 
 	}
 
-	public Valor(Integer id, double preco, Integer id_Lista) {
+	public Valor(Integer id_Produto, String id_Produto_CodSInc, double preco, Integer id_Lista_CodSinc,
+			Integer codSinc) {
 		super();
-		this.id = id;
+		this.id_Produto = id_Produto;
+		this.id_Produto_CodSInc = id_Produto_CodSInc;
 		this.preco = preco;
-		this.id_Lista = id_Lista;
+		this.id_Lista_CodSinc = id_Lista_CodSinc;
+		this.codSinc = codSinc;
 	}
 
-	public Integer getId() {
-		return id;
+	public Integer getId_Produto() {
+		return id_Produto;
 	}
 
-	public void setId(Integer id) {
-		this.id = id;
+	public void setId_Produto(Integer id_Produto) {
+		this.id_Produto = id_Produto;
+	}
+
+	public String getId_Produto_CodSInc() {
+		return id_Produto_CodSInc;
+	}
+
+	public void setId_Produto_CodSInc(String id_Produto_CodSInc) {
+		this.id_Produto_CodSInc = id_Produto_CodSInc;
 	}
 
 	public double getPreco() {
@@ -59,12 +72,12 @@ public class Valor  implements Serializable {
 		this.preco = preco;
 	}
 
-	public Integer getId_Lista() {
-		return 2;
+	public Integer getId_Lista_CodSinc() {
+		return id_Lista_CodSinc;
 	}
 
-	public void setId_Lista(Integer id_Lista) {
-		this.id_Lista = id_Lista;
+	public void setId_Lista_CodSinc(Integer id_Lista_CodSinc) {
+		this.id_Lista_CodSinc = id_Lista_CodSinc;
 	}
 
 	public Integer getCodSinc() {
@@ -72,14 +85,20 @@ public class Valor  implements Serializable {
 	}
 
 	public void setCodSinc(Integer codSinc) {
-		this.codSinc = this.id;
+		this.codSinc = codSinc;
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		int result = 1;
+		result = prime * result + ((codSinc == null) ? 0 : codSinc.hashCode());
+		result = prime * result + ((id_Lista_CodSinc == null) ? 0 : id_Lista_CodSinc.hashCode());
+		result = prime * result + ((id_Produto == null) ? 0 : id_Produto.hashCode());
+		result = prime * result + ((id_Produto_CodSInc == null) ? 0 : id_Produto_CodSInc.hashCode());
+		long temp;
+		temp = Double.doubleToLongBits(preco);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -87,19 +106,35 @@ public class Valor  implements Serializable {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (!super.equals(obj))
+		if (obj == null)
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
 		Valor other = (Valor) obj;
-		if (id == null) {
-			if (other.id != null)
+		if (codSinc == null) {
+			if (other.codSinc != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!codSinc.equals(other.codSinc))
+			return false;
+		if (id_Lista_CodSinc == null) {
+			if (other.id_Lista_CodSinc != null)
+				return false;
+		} else if (!id_Lista_CodSinc.equals(other.id_Lista_CodSinc))
+			return false;
+		if (id_Produto == null) {
+			if (other.id_Produto != null)
+				return false;
+		} else if (!id_Produto.equals(other.id_Produto))
+			return false;
+		if (id_Produto_CodSInc == null) {
+			if (other.id_Produto_CodSInc != null)
+				return false;
+		} else if (!id_Produto_CodSInc.equals(other.id_Produto_CodSInc))
+			return false;
+		if (Double.doubleToLongBits(preco) != Double.doubleToLongBits(other.preco))
 			return false;
 		return true;
 	}
-	
-	
+
 
 }
